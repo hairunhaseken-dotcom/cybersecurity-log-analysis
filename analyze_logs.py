@@ -7,6 +7,7 @@ THRESHOLD = 3
 
 def analyze_logs(filename):
     failed_attempts = Counter()
+    all_ips = set()
     total_records = 0
 
     try:
@@ -19,7 +20,7 @@ def analyze_logs(filename):
                     continue
 
                 timestamp, ip_address, status = [
-                    value.strip() for value in row
+                    all_ips.add(ip_address)value.strip() for value in row
                 ]
 
                 if status not in ("SUCCESS", "FAILED"):
@@ -38,7 +39,7 @@ def analyze_logs(filename):
     print("CYBERSECURITY LOG ANALYSIS")
     print("--------------------------")
     print("Total valid records:", total_records)
-    print("Unique IP addresses:", len(failed_attempts))
+    print("Unique IP addresses:", len(all_ips))
 
     print("\nFailed login attempts:")
     if not failed_attempts:
